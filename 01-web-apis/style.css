@@ -1,0 +1,9 @@
+html {
+	overflow-y: scroll;
+}
+
+.pink {
+	background-color: hotpink;
+	width: 20rem;
+	overflow-y: scroll;
+}
