@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Coordinates</title>
+		<style>
+			body {
+				background-color: black;
+				/* 문서를 넘어갈때 안보이게 한다 => 스크롤을 안되게 하고싶다. */
+				/* overflow: hidden; */
+			}
+
+			div {
+				width: 250px;
+				height: 250px;
+				background-color: blanchedalmond;
+				margin-bottom: 4px;
+				border-radius: 4px;
+			}
+			.special {
+				background-color: lightsalmon;
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div class="special"></div>
+		<div></div>
+		<div></div>
+		<script>
+			const special = document.querySelector('.special');
+			special.addEventListener('click', (event) => {
+				const rect = special.getBoundingClientRect();
+				console.log(rect);
+				// x, y는 윈도우상에서, x는 왼쪽에서부터 8px떨어져있고,
+				console.log(`client: ${event.clientX}, ${event.clientY}`);
+				console.log(`page: ${event.pageX}, ${event.pageY}`);
+			});
+		</script>
+	</body>
+</html>
