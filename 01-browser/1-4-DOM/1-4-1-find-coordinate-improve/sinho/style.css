@@ -129,37 +129,50 @@ table {
 }
 body {
 	background-color: black;
+	/* cursor: none; */
 }
 
 .line {
 	position: absolute;
 	background-color: white;
+	will-change: opacity;
+	z-index: 100;
 }
 
 .horizontal {
 	width: 100%;
 	height: 1px;
-	top: 50%;
+	/* top: 50%; */
+	transform: translate(0, 50vh);
+	will-change: opacity;
+	z-index: 100;
 }
 
 .vertical {
 	height: 100%;
 	width: 1px;
-	left: 50%;
+	/* left: 50%; */
+	transform: translate(50vw);
+	will-change: opacity;
+	z-index: 100;
 }
 
 .target {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	/* top: 50%;
+	left: 50%; */
+	transform: translate(-50%, -50%) translate(50vw, 50vh);
+	will-change: opacity;
+	z-index: 100;
 }
 
 .tag {
 	color: white;
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(20px, 20px);
+	/* top: 50%;
+	left: 50%; */
+	transform: translate(50vw, 50vh) translate(20px, 20px);
 	font-size: 38px;
+	will-change: opacity;
+	z-index: 100;
 }

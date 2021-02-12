@@ -5,8 +5,17 @@ function init() {
 	const tag = document.querySelector('.tag');
 
 	function changeCoordiates(obj, x, y) {
-		obj.style.left = `${x}px`;
-		obj.style.top = `${y}px`;
+		const className = obj.className;
+		switch (className) {
+			case 'target':
+				obj.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+				break;
+			case 'tag':
+				obj.style.transform = `translate(${x}px, ${y}px) translate(20px, 20px)`;
+				break;
+			default:
+				obj.style.transform = `translate(${x}px, ${y}px)`;
+		}
 	}
 
 	document.addEventListener('mousemove', (e) => {
