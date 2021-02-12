@@ -20,8 +20,15 @@ body {
 	justify-content: space-between;
 	padding: 0.5rem 1rem;
 	align-items: center;
+	height: 3rem;
 }
-
+.item-text {
+	max-width: 16rem;
+	max-height: 3rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
 .trash:hover {
 	color: tomato;
 	cursor: pointer;
@@ -34,7 +41,15 @@ header {
 section {
 	height: 35rem;
 	background-color: snow;
-	overflow-y: auto;
+	overflow-y: scroll;
+
+	/* Hide Scrollbars But Keep Functionality */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+/* Hide Scrollbars But Keep Functionality */
+section::-webkit-scrollbar {
+	display: none;
 }
 
 input {
