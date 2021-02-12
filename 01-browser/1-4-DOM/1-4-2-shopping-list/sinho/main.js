@@ -4,7 +4,7 @@ function init() {
 	const section = document.querySelector('section');
 	const plusBtn = document.querySelector('.icon');
 
-	// utilize 가능
+	// i tag와 trash span tag의 범위가 달라 div item판단하는 로직을 위해 필요한 재귀
 	const getItemDivOrNull = (elem) => {
 		if (elem.classList.contains('item')) {
 			return elem;
@@ -39,7 +39,7 @@ function init() {
 		div.appendChild(spanRight);
 
 		// add event remove
-		// 이벤트 위임으로 성능 향상 가능
+		// 이벤트 위임으로 성능 향상 가능할듯
 		spanRight.addEventListener('click', clickRemoveBtn);
 		section.appendChild(div);
 	};
