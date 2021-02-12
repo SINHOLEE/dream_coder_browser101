@@ -1,0 +1,66 @@
+body {
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: lavender;
+	margin-top: 2rem;
+}
+
+.main {
+	border: 1px solid gray;
+	border-radius: 20px;
+	width: 20rem;
+	font-size: 1.5rem;
+	overflow: hidden;
+}
+
+.item {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 1rem;
+	align-items: center;
+}
+
+.trash:hover {
+	color: tomato;
+	cursor: pointer;
+}
+header {
+	padding: 0.5rem;
+	background-color: violet;
+	color: white;
+}
+section {
+	height: 35rem;
+	background-color: snow;
+	overflow-y: auto;
+}
+
+input {
+	box-sizing: border-box;
+	border: none;
+	padding: 0;
+}
+input::placeholder {
+	text-align: center;
+}
+input:focus {
+	outline: tomato auto 1px;
+}
+.shopping-item {
+	width: 20rem;
+	height: 3rem;
+}
+.icon:hover {
+	cursor: pointer;
+	color: teal;
+	transform: translate(10ms);
+}
+
+footer {
+	padding: 0.5rem;
+	background-color: violet;
+	font-size: 2rem;
+	/* color: white; */
+}
