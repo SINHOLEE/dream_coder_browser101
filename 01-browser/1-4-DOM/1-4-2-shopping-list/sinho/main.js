@@ -2,7 +2,7 @@ function init() {
 	const input = document.querySelector('input');
 	const form = document.querySelector('form');
 	const section = document.querySelector('section');
-	const plusBtn = document.querySelector('.icon');
+	const plusBtn = document.querySelector('.plus-icon');
 
 	// i tag와 trash span tag의 범위가 달라 div item판단하는 로직을 위해 필요한 재귀
 	const getItemDivOrNull = (elem) => {
