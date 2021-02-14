@@ -5,23 +5,28 @@ function init() {
 	const plusBtn = document.querySelector('.plus-icon');
 
 	// i tag와 trash span tag의 범위가 달라 div item판단하는 로직을 위해 필요한 재귀
-	const getItemDivOrNull = (elem) => {
-		if (elem.classList.contains('item')) {
-			return elem;
-		}
-		if (elem.parentNode === null) {
-			return null;
-		}
-		return getItemDivOrNull(elem.parentNode);
-	};
 
 	const removeBy = (item) => {
 		item.remove();
 	};
-	const clickRemoveBtn = (e) => {
-		const targetItem = getItemDivOrNull(e.target);
+	function clickRemoveBtn(e) {
+		const targetItem = e.target.closest('.item');
+		if (!targetItem) {
+			return;
+		}
+		if (!section.contains(targetItem)) {
+			return;
+		}
+		if (
+			!e.target.classList.contains('trash') &&
+			!e.target.classList.contains('fa-trash-alt')
+		) {
+			return;
+		}
 		removeBy(targetItem);
-	};
+	}
+
+	section.addEventListener('click', clickRemoveBtn);
 
 	const addItem = (item) => {
 		const div = document.createElement('div');
@@ -40,8 +45,9 @@ function init() {
 
 		// add event remove
 		// 이벤트 위임으로 성능 향상 가능할듯
-		spanRight.addEventListener('click', clickRemoveBtn);
 		section.appendChild(div);
+
+		div.scrollIntoView({ block: 'center', behavior: 'smooth' });
 	};
 
 	const submit = (e) => {
@@ -51,6 +57,7 @@ function init() {
 
 		addItem(value);
 		input.value = '';
+		input.focus();
 	};
 
 	form.addEventListener('submit', submit);

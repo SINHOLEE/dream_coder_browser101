@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Carrot Game</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="game.js" defer></script>
+		<script
+			src="https://kit.fontawesome.com/83688b38cc.js"
+			crossorigin="anonymous"
+		></script>
+	</head>
+	<body>
+		<section class="game">
+			<section class="game__top">
+				<button class="game__top__play-or-stop-btn btn">
+					<!-- <i class="fas fa-play"></i> -->
+					<i class="fas fa-square"></i>
+				</button>
+				<div class="game__top__timer__container">
+					<div class="game__top__timer__item">0:10</div>
+				</div>
+				<div class="game__top__carrots-count__container">
+					<span class="game__top__carrots-count__item">10</span>
+				</div>
+			</section>
+			<section class="game__playground">
+				<img
+					class="charactor"
+					src="../carrot/img/carrot.png"
+					style="transform: translate(520px, 0px)"
+					alt="carrot"
+				/>
+				<img
+					class="charactor"
+					src="../carrot/img/carrot.png"
+					style="transform: translate(520px, 120px)"
+					alt="carrot"
+				/>
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/bug.png" alt="bug" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/bug.png" alt="bug" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/bug.png" alt="bug" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/carrot.png" alt="carrot" />
+				<img class="charactor" src="../carrot/img/bug.png" alt="bug" />
+				<div class="modal">
+					<div class="modal__game">
+						<button class="retry btn">
+							<i class="fas fa-redo-alt"></i>
+						</button>
+						<div class="modal__game__text">YOU LOST</div>
+					</div>
+					<div class="modal__game hidden">
+						<button class="retry btn">
+							<i class="fas fa-redo-alt"></i>
+						</button>
+						<div class="modal__game__text">YOU WON!!!!</div>
+					</div>
+				</div>
+			</section>
+		</section>
+	</body>
+</html>
