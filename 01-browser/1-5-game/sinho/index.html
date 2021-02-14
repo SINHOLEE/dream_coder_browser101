@@ -15,15 +15,14 @@
 	<body>
 		<section class="game">
 			<section class="game__top">
-				<button class="game__top__play-or-stop-btn btn">
-					<!-- <i class="fas fa-play"></i> -->
-					<i class="fas fa-square"></i>
+				<button class="game__top__play-or-stop-btn btn" data-currenticon="play">
+					<i class="fas fa-play"></i>
 				</button>
 				<div class="game__top__timer__container">
-					<div class="game__top__timer__item">0:10</div>
+					<div class="game__top__timer__item"></div>
 				</div>
 				<div class="game__top__carrots-count__container">
-					<span class="game__top__carrots-count__item">10</span>
+					<span class="game__top__carrots-count__item"></span>
 				</div>
 			</section>
 			<section class="game__playground">
@@ -57,12 +56,6 @@
 							<i class="fas fa-redo-alt"></i>
 						</button>
 						<div class="modal__game__text">YOU LOST</div>
-					</div>
-					<div class="modal__game hidden">
-						<button class="retry btn">
-							<i class="fas fa-redo-alt"></i>
-						</button>
-						<div class="modal__game__text">YOU WON!!!!</div>
 					</div>
 				</div>
 			</section>
