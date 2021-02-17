@@ -1,10 +1,5 @@
-class Singletion {
-	constructor() {}
-}
-
-class CarrotManager extends Singletion {
+class CarrotManager {
 	constructor($target, $carrotsCnt) {
-		super();
 		this.$target = $target;
 		this.maxHeight = $target.getBoundingClientRect().height;
 		this.maxWidth = $target.getBoundingClientRect().width;
@@ -20,19 +15,19 @@ class CarrotManager extends Singletion {
 		}
 	}
 
-	getRandomSize(min, max) {
+	getRandomSize(max) {
 		return Math.random() * max;
 	}
 
 	removeAll() {
-		const carrots = this.$target.querySelectorAll(".carrot");
+		const carrots = this.$target.querySelectorAll('.carrot');
 		carrots.forEach((carrot) => {
 			carrot.remove();
 		});
 	}
 
 	removeByImg(img) {
-		if (img.tagName === "IMG") {
+		if (img.tagName === 'IMG') {
 			img.remove();
 			this.$carrotsCnt.textContent = parseInt(this.$carrotsCnt.textContent) - 1;
 		}
@@ -43,21 +38,19 @@ class CarrotManager extends Singletion {
 				name=carrot
 				class="charactor carrot"
 				src="../carrot/img/carrot.png"
-				style="width:80px; height:80px; transform: translate(${this.getRandomSize(
-					0,
-					this.maxWidth - 80,
-				)}px, ${this.getRandomSize(0, this.maxHeight - 80)}px);"
+				style= "transform: translate(${this.getRandomSize(
+					this.maxWidth - 80
+				)}px, ${this.getRandomSize(this.maxHeight - 80)}px)"
 				alt="carrot"
 			/>
 		`;
-		const carrot = document.createElement("div");
+		const carrot = document.createElement('div');
 		carrot.innerHTML = innerHTML;
 		return carrot.firstElementChild;
 	}
 }
-class BugManager extends Singletion {
+class BugManager {
 	constructor($target) {
-		super();
 		this.$target = $target;
 		this.maxHeight = $target.getBoundingClientRect().height;
 		this.maxWidth = $target.getBoundingClientRect().width;
@@ -70,12 +63,12 @@ class BugManager extends Singletion {
 		}
 	}
 
-	getRandomSize(min, max) {
+	getRandomSize(max) {
 		return Math.random() * max;
 	}
 
 	removeAll() {
-		const bugs = this.$target.querySelectorAll(".bug");
+		const bugs = this.$target.querySelectorAll('.bug');
 		bugs.forEach((bug) => {
 			bug.remove();
 		});
@@ -87,120 +80,156 @@ class BugManager extends Singletion {
 				name=bug
 				class="charactor bug"
 				src="../carrot/img/bug.png"
-				style="width:40px; height:40px; transform: translate(${this.getRandomSize(
-					0,
-					this.maxWidth - 50,
-				)}px, ${this.getRandomSize(0, this.maxHeight - 50)}px);"
+				style="transform:translate(${this.getRandomSize(
+					this.maxWidth - 50
+				)}px, ${this.getRandomSize(this.maxHeight - 50)}px);"
 				alt="bug"
 			/>
 		`;
-		const bug = document.createElement("div");
+		const bug = document.createElement('div');
 		bug.innerHTML = innerHTML;
 		return bug.firstElementChild;
 	}
 }
 
 function init() {
-	const playOrStopBtn = document.querySelector(".game__top__play-or-stop-btn");
-	const timerElem = document.querySelector(".game__top__timer__item");
-	const carrotsCnt = document.querySelector(".game__top__carrots-count__item");
-	const gamePlayground = document.querySelector(".game__playground");
-	const modal = document.querySelector(".modal");
-	const modalGameText = document.querySelector(".modal__game__text");
+	// audios
+	const bgm = new Audio('../carrot/sound/bg.mp3');
+	const bugPull = new Audio('../carrot/sound/bug_pull.mp3');
+	const carrotPull = new Audio('../carrot/sound/carrot_pull.mp3');
+	const lostAlert = new Audio('../carrot/sound/alert.wav');
+	const winAlert = new Audio('../carrot/sound/game_win.mp3');
+
+	// elems
+	const playOrStopBtn = document.querySelector('.game__top__play-or-stop-btn');
+	const timerElem = document.querySelector('.game__top__timer__item');
+	const carrotsCnt = document.querySelector('.game__top__carrots-count__item');
+	const gamePlayground = document.querySelector('.game__playground');
+	const modal = document.querySelector('.modal');
+	const modalGameText = document.querySelector('.modal__game__text');
 	const bugManager = new BugManager(gamePlayground);
+	const retryBtn = document.querySelector('.retry');
 	const carrotManager = new CarrotManager(gamePlayground, carrotsCnt);
 	let time;
 	let timeout;
 	let timeInterval;
 
-	const handleClick = (e) => {
-		const target = e.target;
-		if (target.tagName !== "IMG") {
-			return;
-		}
-		if (target.classList.contains("bug")) {
-			stopGame();
-			return;
-		}
-		if (target.classList.contains("carrot")) {
-			carrotManager.removeByImg(target);
+	const clickBug = () => {
+		lostGame();
+		bugPull.load();
+		bugPull.play();
+	};
+	const clickCarrot = (target) => {
+		carrotPull.load();
+		carrotPull.play();
+		carrotManager.removeByImg(target);
+		if (carrotsCnt.innerHTML === '0') {
+			winGame();
 		}
 	};
-	gamePlayground.addEventListener("click", handleClick);
+
+	const handleClick = (e) => {
+		const target = e.target;
+		if (target.tagName !== 'IMG') {
+			return;
+		}
+		if (target.classList.contains('bug')) {
+			clickBug();
+			return;
+		}
+		if (target.classList.contains('carrot')) {
+			clickCarrot(target);
+		}
+	};
+	gamePlayground.addEventListener('click', handleClick);
 	function initGame() {
 		// 시간 원상태
 		time = 10;
-		timerElem.textContent = `00:${time.toString().padStart(2, "0")}`;
+		timerElem.textContent = `00:${time.toString().padStart(2, '0')}`;
 
 		// 당근 벌래 원상태
 		carrotsCnt.textContent = 0;
 		// 버튼 원상태
 		const currentIcon = playOrStopBtn.dataset.currenticon;
 
-		if (currentIcon !== "play") {
+		if (currentIcon !== 'play') {
 			togglePlayOrStopBtn();
 		}
 
 		bugManager.removeAll();
 		carrotManager.removeAll();
 		// 모달 원상태
-		console.log(modal.classList);
-		if (!modal.classList.contains("hidden")) {
-			modal.classList.add("hidden");
+		if (!modal.classList.contains('hidden')) {
+			modal.classList.add('hidden');
 		}
 	}
 	initGame();
 
+	function winGame() {
+		modalGameText.textContent = 'YOU WON!!';
+		stopGame();
+		winAlert.load();
+		winAlert.play();
+	}
+
+	function lostGame() {
+		modalGameText.textContent = 'YOU LOST';
+		stopGame();
+		lostAlert.load();
+		lostAlert.play();
+	}
+
 	function stopGame() {
 		togglePlayOrStopBtn();
-		if (modal.classList.contains("hidden")) {
-			modal.classList.remove("hidden");
+		bgm.pause();
+		if (modal.classList.contains('hidden')) {
+			modal.classList.remove('hidden');
 		}
-
 		if (timeout) {
-			console.log("stop");
 			clearInterval(timeInterval);
 			clearTimeout(timeout);
 		}
 	}
 
 	function gameStart() {
+		bgm.load();
+		bgm.play();
 		togglePlayOrStopBtn();
 		bugManager.createBugsByNum(15);
 		carrotManager.createRabbitByNum(10);
-		console.log("start");
 		timeInterval = setInterval(() => {
 			time--;
-			timerElem.textContent = `00:${time.toString().padStart(2, "0")}`;
+			timerElem.textContent = `00:${time.toString().padStart(2, '0')}`;
 		}, 1000);
-		timeout = setTimeout(stopGame, 10000);
+		timeout = setTimeout(lostGame, 10000);
 	}
 	function getCurrentIcon() {
 		return playOrStopBtn.dataset.currenticon;
 	}
-	playOrStopBtn.addEventListener("click", () => {
+	const switchGame = () => {
 		const currentIcon = getCurrentIcon();
-		console.log(currentIcon);
-		if (currentIcon === "play") {
+		if (currentIcon === 'play') {
 			initGame();
 			gameStart();
 		} else {
-			stopGame();
+			lostGame();
 		}
-	});
+	};
+	retryBtn.addEventListener('click', switchGame);
+	playOrStopBtn.addEventListener('click', switchGame);
 
 	function togglePlayOrStopBtn() {
 		const currentIcon = playOrStopBtn.dataset.currenticon;
 
-		playOrStopBtn.setAttribute("data-currenticon", currentIcon === "play" ? "stop" : "play");
+		playOrStopBtn.setAttribute(
+			'data-currenticon',
+			currentIcon === 'play' ? 'stop' : 'play'
+		);
 		playOrStopBtn.innerHTML =
-			currentIcon === "play" ? '<i class="fas fa-square"></i>' : '<i class="fas fa-play"></i>';
+			currentIcon === 'play'
+				? '<i class="fas fa-square"></i>'
+				: '<i class="fas fa-play"></i>';
 	}
-	function removeCharacter(character) {}
-	function createBug() {}
-	function createCarrot() {}
-	function createTenCarrots() {}
-	function createTenBugs() {}
 }
 
 init();
