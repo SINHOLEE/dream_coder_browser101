@@ -18,6 +18,12 @@ body {
 	position: absolute;
 	will-change: opacity;
 }
+
+.charactor:hover {
+	cursor: pointer;
+	width: 50px;
+	height: 50px;
+}
 .game__top {
 	height: 200px;
 	padding: 50px;
@@ -81,6 +87,8 @@ body {
 	width: 800px;
 	height: 300px;
 	text-align: center;
+	will-change: opacity;
+	z-index: 1000;
 }
 
 .modal__game {
