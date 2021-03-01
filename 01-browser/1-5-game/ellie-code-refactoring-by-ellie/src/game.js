@@ -3,13 +3,7 @@ import * as Sound from './sound.js';
 import Field from './field.js';
 
 export default class Game {
-	constructor(
-		gameDurationSec,
-		gameFinishBanner,
-		carrotCount,
-		bugCount,
-		carrotSize
-	) {
+	constructor(gameDurationSec, carrotCount, bugCount, carrotSize) {
 		this.gameDurationSec = gameDurationSec;
 		this.started = false;
 		this.score = 0;
@@ -19,7 +13,6 @@ export default class Game {
 		this.carrotSize = carrotSize;
 
 		// ioc injection of dependency
-		this.gameFinishBanner = gameFinishBanner;
 		this.gameField = new Field(
 			this.carrotCount,
 			this.bugCount,
@@ -33,6 +26,9 @@ export default class Game {
 		this.gameBtn.addEventListener('click', this.onClick);
 	}
 
+	setGameStopListener = (onGameStop) => {
+		this.onGameStop = onGameStop;
+	};
 	onItemClick = (item) => {
 		if (!this.isStarted()) {
 			return;
@@ -69,7 +65,8 @@ export default class Game {
 		this.started = false;
 		this.stopGameTimer();
 		this._hideGameButton();
-		this.gameFinishBanner.showWithText('REPLAY❓'); // 주입된 배너 인스턴스 사용
+		this.onGameStop && this.onGameStop('stop');
+		// this.gameFinishBanner.showWithText('REPLAY❓'); // 주입된 배너 인스턴스 사용
 
 		Sound.playAlert();
 		Sound.StopBackground();
@@ -80,12 +77,14 @@ export default class Game {
 		this._hideGameButton();
 		if (win) {
 			Sound.playWin();
+			this.onGameStop('win');
 		} else {
 			Sound.playBug();
+			this.onGameStop('lose');
 		}
 		this.stopGameTimer();
 		Sound.StopBackground();
-		this.gameFinishBanner.showWithText(win ? 'YOU WON 🎉' : 'YOU LOST 💩'); // 주입된 배너 인스턴스 사용
+		// this.gameFinishBanner.showWithText(win ? 'YOU WON 🎉' : 'YOU LOST 💩'); // 주입된 배너 인스턴스 사용
 	}
 
 	_showStopButton() {
