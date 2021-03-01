@@ -19,14 +19,13 @@ export default class Game {
 		this.carrotSize = carrotSize;
 
 		// ioc injection of dependency
+		this.gameFinishBanner = gameFinishBanner;
 		this.gameField = new Field(
 			this.carrotCount,
 			this.bugCount,
 			this.carrotSize
 		);
 		this.gameField.setItemClickListener(this.onItemClick);
-
-		this.gameFinishBanner = gameFinishBanner;
 
 		this.gameBtn = document.querySelector('.game__button');
 		this.timerIndicator = document.querySelector('.game__timer');
@@ -70,7 +69,7 @@ export default class Game {
 		this.started = false;
 		this.stopGameTimer();
 		this._hideGameButton();
-		this.gameFinishBanner.showWithText('REPLAY❓');
+		this.gameFinishBanner.showWithText('REPLAY❓'); // 주입된 배너 인스턴스 사용
 
 		Sound.playAlert();
 		Sound.StopBackground();
@@ -86,7 +85,7 @@ export default class Game {
 		}
 		this.stopGameTimer();
 		Sound.StopBackground();
-		this.gameFinishBanner.showWithText(win ? 'YOU WON 🎉' : 'YOU LOST 💩');
+		this.gameFinishBanner.showWithText(win ? 'YOU WON 🎉' : 'YOU LOST 💩'); // 주입된 배너 인스턴스 사용
 	}
 
 	_showStopButton() {
