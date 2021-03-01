@@ -1,0 +1,118 @@
+/* 변수로 설정해서 사용하자. */
+body {
+	background-color: black;
+}
+
+button {
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+.game {
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	width: 800px;
+	height: 500px;
+	background: url(../carrot/img/background.png) center/cover;
+	border-radius: 20px;
+}
+
+.game__header {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	align-items: center;
+}
+
+.game__timer {
+	/* display: flex; */
+	width: 100px;
+	background-color: white;
+	text-align: center;
+	border: 5px solid black;
+	font-size: 32px;
+	margin-top: 8px;
+	border-radius: 26px;
+	visibility: hidden;
+}
+
+.game__score {
+	margin-top: 8px;
+	text-align: center;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: middle;
+	font-size: 36px;
+	border-radius: 50%;
+	border: 3px solid black;
+	background-color: darksalmon;
+	color: white;
+	visibility: hidden;
+}
+.game__button {
+	width: 60px;
+	height: 60px;
+	background-color: wheat;
+	border: 4px solid black;
+	font-size: 24px;
+	transition: transform 300ms ease-in;
+}
+
+.game__button:hover {
+	transform: scale(1.1);
+}
+
+.game__field {
+	/* position: static; */
+	position: sticky;
+	/* position: fixed; */
+	/* position: absolute; */
+	/* position: relative; */
+	width: 100%;
+	height: 100%;
+	margin-top: 40px;
+}
+
+body {
+	text-align: center;
+}
+.pop-up {
+	margin: auto;
+	width: 400px;
+	height: 140px;
+	padding: 20px;
+	background-color: #00000090;
+	color: white;
+	text-align: center;
+	transform: translateY(-150%);
+	border-radius: 20px;
+}
+
+.pop-up__refresh {
+	width: 60px;
+	height: 60px;
+	font-size: 24px;
+	border: 2px solid black;
+	border-radius: 50px;
+	transition: transform 300ms ease-in;
+
+	background-color: wheat;
+}
+.pop-up__refresh:hover {
+	transform: scale(1.1);
+}
+
+.pop-up--hide {
+	display: none;
+}
+.pop-up__message {
+	display: block;
+	font-size: 38px;
+}
+
+.carrot:hover,
+.bug:hover {
+	transform: scale(1.1);
+}
