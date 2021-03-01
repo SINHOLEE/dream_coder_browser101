@@ -1,10 +1,16 @@
 'use strict';
+import { Field, ItemType } from './field.js';
 import * as Sound from './sound.js';
-import Field from './field.js';
+
+export const Reason = Object.freeze({
+	win: 'win',
+	lose: 'lose',
+	stop: 'stop',
+});
 
 // 생성자 함수에 3개 이상 변수가 들어갈 경우 사용하는 패턴
 // 가독성을 높인다.
-export default class gameBuilder {
+export class GameBuilder {
 	gameDuration(gameDurationSec) {
 		this.gameDurationSec = gameDurationSec;
 		return this;
@@ -28,22 +34,37 @@ export default class gameBuilder {
 
 class Game {
 	constructor(gameDurationSec, carrotCount, bugCount) {
+		// 상수
 		this.gameDurationSec = gameDurationSec;
+		this.carrotCount = carrotCount;
+		this.bugCount = bugCount;
+
+		//상태값
 		this.started = false;
 		this.score = 0;
 		this.timer = undefined;
-		this.carrotCount = carrotCount;
-		this.bugCount = bugCount;
+
+		// 돔 요소들
+		this.gameBtn = document.querySelector('.game__button');
+		this.timerIndicator = document.querySelector('.game__timer');
+		this.gameScore = document.querySelector('.game__score');
+
+		// 돔 요소에 리스너 등록
+		this.gameBtn.addEventListener('click', this.onClickGamePlayBtn);
 
 		// ioc injection of dependency
 		this.gameField = new Field(this.carrotCount, this.bugCount);
 		this.gameField.setItemClickListener(this.onItemClick);
-
-		this.gameBtn = document.querySelector('.game__button');
-		this.timerIndicator = document.querySelector('.game__timer');
-		this.gameScore = document.querySelector('.game__score');
-		this.gameBtn.addEventListener('click', this.onClick);
+		this.gameField.setIsGameStarted(this.isStarted);
 	}
+
+	onClickGamePlayBtn = () => {
+		if (this.started) {
+			this._stop(Reason.stop);
+		} else {
+			this.start();
+		}
+	};
 
 	setGameStopListener = (onGameStop) => {
 		this.onGameStop = onGameStop;
@@ -52,26 +73,18 @@ class Game {
 		if (!this.isStarted()) {
 			return;
 		}
-		if (item === 'carrot') {
+		if (item === ItemType.carrot) {
 			this.increaseScore();
 			this.updateScoreBoard();
 			if (this.isScroreEqualCarrotCount()) {
-				this.finish(true);
+				this._stop(Reason.win);
 			}
-		} else if (item === 'bug') {
-			this.finish(false);
-		}
-	};
-	onClick = () => {
-		if (this.started) {
-			this._stop();
-		} else {
-			this.start();
+		} else if (item === ItemType.bug) {
+			this._stop(Reason.lose);
 		}
 	};
 
 	start() {
-		console.log('in start game this', this);
 		this.started = true;
 		this.init();
 		this._showStopButton();
@@ -80,30 +93,14 @@ class Game {
 		Sound.playBackground();
 	}
 
-	_stop() {
-		this.started = false;
-		this.stopGameTimer();
-		this._hideGameButton();
-		this.onGameStop && this.onGameStop('stop');
-		// this.gameFinishBanner.showWithText('REPLAY❓'); // 주입된 배너 인스턴스 사용
-
-		Sound.playAlert();
-		Sound.StopBackground();
-	}
-
-	finish(win) {
+	_stop(reason) {
 		this.started = false;
 		this._hideGameButton();
-		if (win) {
-			Sound.playWin();
-			this.onGameStop('win');
-		} else {
-			Sound.playBug();
-			this.onGameStop('lose');
-		}
 		this.stopGameTimer();
 		Sound.StopBackground();
-		// this.gameFinishBanner.showWithText(win ? 'YOU WON 🎉' : 'YOU LOST 💩'); // 주입된 배너 인스턴스 사용
+
+		// from main for using gameFinishBanner instance
+		this.onGameStop && this.onGameStop(reason);
 	}
 
 	_showStopButton() {
@@ -128,7 +125,7 @@ class Game {
 		this.timer = setInterval(() => {
 			if (remainingTimeSec <= 0) {
 				clearInterval(this.timer);
-				this.finish(this.score === this.carrotCount);
+				this._stop(this.score === this.carrotCount ? Reason.win : Reason.lose);
 				return;
 			}
 			this._updateTimerText(--remainingTimeSec);
@@ -145,12 +142,9 @@ class Game {
 	}
 
 	init() {
-		console.log('in init game this ', this);
 		this.score = 0;
-		// field.innerHTML = '';
 		this.gameScore.innerText = this.carrotCount;
 		this.gameField.init();
-		// 벌레와 당근을 생성한뒤 field에 추가해줌
 	}
 	updateScoreBoard() {
 		this.gameScore.innerText = this.carrotCount - this.score;
@@ -158,9 +152,9 @@ class Game {
 	increaseScore() {
 		this.score++;
 	}
-	isStarted() {
+	isStarted = () => {
 		return this.started;
-	}
+	};
 	isScroreEqualCarrotCount() {
 		return this.score === this.carrotCount;
 	}
