@@ -1,19 +1,17 @@
 'use strict';
 import PopUp from './popup.js';
-import Game from './game.js';
+import gameBuilder from './game.js';
 
-const CARROT_SIZE = 80;
 const CARROT_COUNT = 2;
 const BUG_COUNT = 2;
 const GAME_DURATION_SEC = 1;
 
 const gameFinishBanner = new PopUp();
-const carrotGame = new Game(
-	GAME_DURATION_SEC,
-	CARROT_COUNT,
-	BUG_COUNT,
-	CARROT_SIZE
-);
+const carrotGame = new gameBuilder()
+	.gameDuration(GAME_DURATION_SEC)
+	.carrotCount(CARROT_COUNT)
+	.bugCount(BUG_COUNT)
+	.build();
 
 // popup에 콜백 등록
 gameFinishBanner.setClickListener(() => {

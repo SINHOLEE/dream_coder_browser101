@@ -1,10 +1,10 @@
 'use strict';
 import { playCarrot } from './sound.js';
+const CARROT_SIZE = 80;
 
 export default class Field {
-	constructor(carrotCount, bugCount, carrotSize) {
+	constructor(carrotCount, bugCount) {
 		this.carrotCount = carrotCount;
-		this.carrotSize = carrotSize;
 		this.bugCount = bugCount;
 		this.field = document.querySelector('.game__field');
 		this.fieldRect = this.field.getBoundingClientRect();
@@ -23,8 +23,8 @@ export default class Field {
 	_addItem(className, count, imgPath) {
 		const x1 = 0;
 		const y1 = 0;
-		const x2 = this.fieldRect.width - this.carrotSize;
-		const y2 = this.fieldRect.height - this.carrotSize;
+		const x2 = this.fieldRect.width - CARROT_SIZE;
+		const y2 = this.fieldRect.height - CARROT_SIZE;
 		for (let i = 0; i < count; i++) {
 			const item = document.createElement('img');
 			item.setAttribute('class', className);

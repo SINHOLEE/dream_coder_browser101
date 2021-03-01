@@ -2,22 +2,41 @@
 import * as Sound from './sound.js';
 import Field from './field.js';
 
-export default class Game {
-	constructor(gameDurationSec, carrotCount, bugCount, carrotSize) {
+// 생성자 함수에 3개 이상 변수가 들어갈 경우 사용하는 패턴
+// 가독성을 높인다.
+export default class gameBuilder {
+	gameDuration(gameDurationSec) {
+		this.gameDurationSec = gameDurationSec;
+		return this;
+	}
+	carrotCount(carrotNum) {
+		this.carrotNum = carrotNum;
+		return this;
+	}
+	bugCount(bugNum) {
+		this.bugNum = bugNum;
+		return this;
+	}
+	build() {
+		return new Game(
+			this.gameDurationSec, //
+			this.carrotNum,
+			this.bugNum
+		);
+	}
+}
+
+class Game {
+	constructor(gameDurationSec, carrotCount, bugCount) {
 		this.gameDurationSec = gameDurationSec;
 		this.started = false;
 		this.score = 0;
 		this.timer = undefined;
 		this.carrotCount = carrotCount;
 		this.bugCount = bugCount;
-		this.carrotSize = carrotSize;
 
 		// ioc injection of dependency
-		this.gameField = new Field(
-			this.carrotCount,
-			this.bugCount,
-			this.carrotSize
-		);
+		this.gameField = new Field(this.carrotCount, this.bugCount);
 		this.gameField.setItemClickListener(this.onItemClick);
 
 		this.gameBtn = document.querySelector('.game__button');
